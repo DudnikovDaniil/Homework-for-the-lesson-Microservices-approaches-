@@ -1,0 +1,17 @@
+filebeat.inputs:
+- type: container
+  paths:
+    - '/var/lib/docker/containers/*/*.log'
+  processors:
+    - add_docker_metadata:
+        host: "unix:///var/run/docker.sock"
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  username: "elastic"
+  password: "qwerty123456"
+  index: "logs-%{+yyyy.MM.dd}"
+
+setup.template.name: "logs"
+setup.template.pattern: "logs-*"
+logging.level: info

@@ -1,0 +1,31 @@
+[sources.docker_logs]
+type = "docker_logs"
+docker_host = "unix:///var/run/docker.sock"
+include_containers = ["security-service", "uploader-service", "storage-service", "api-gateway"]
+
+[transforms.parse_logs]
+type = "remap"
+inputs = ["docker_logs"]
+source = '''
+. = parse_json(.message) ?? .
+'''
+
+[transforms.add_service_name]
+type = "remap"
+inputs = ["parse_logs"]
+source = '''
+.service = get!(."container_name", "unknown")
+'''
+
+[sinks.elasticsearch]
+type = "elasticsearch"
+inputs = ["add_service_name"]
+endpoint = "http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+index = "logs-%Y-%m-%d"
+auth = { strategy = "basic", user = "elastic", password = "qwerty123456" }
+encoding = "json"
+
+[sinks.elasticsearch.buffer]
+type = "disk"
+max_size = 1073741824
+when_full = "block"

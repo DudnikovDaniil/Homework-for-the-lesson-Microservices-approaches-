@@ -1,0 +1,57 @@
+# СЕКРЕТЫ 
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.crt
+*.csr
+*.p12
+*.pfx
+secrets/
+credentials/
+*.secret
+*.private
+**/secrets/
+**/credentials/
+
+# Пароли GitLab
+gitlab/config/
+gitlab/logs/
+gitlab/data/
+gitlab/runner-config/
+initial_root_password
+
+# Docker данные 
+*/data/
+*/logs/
+elasticsearch-data/
+prometheus-data/
+grafana-data/
+*.volume/
+
+# Логи 
+*.log
+nohup.out
+
+# Python 
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Временные файлы
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup

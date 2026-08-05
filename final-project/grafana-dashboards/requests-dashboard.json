@@ -1,0 +1,54 @@
+{
+  "title": "Requests Distribution by Service",
+  "uid": "requests-distribution",
+  "time": {"from": "now-15m", "to": "now"},
+  "refresh": "30s",
+  "panels": [
+    {
+      "title": "Requests Distribution",
+      "type": "piechart",
+      "gridPos": {"h": 10, "w": 12, "x": 0, "y": 0},
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total[5m])) by (service)",
+          "legendFormat": "{{service}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps"
+        }
+      }
+    },
+    {
+      "title": "Request Rate Over Time",
+      "type": "graph",
+      "gridPos": {"h": 10, "w": 12, "x": 12, "y": 0},
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total[1m])) by (service)",
+          "legendFormat": "{{service}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps"
+        }
+      }
+    },
+    {
+      "title": "Service Status",
+      "type": "table",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 10},
+      "targets": [
+        {
+          "expr": "up",
+          "legendFormat": "{{job}}",
+          "refId": "A"
+        }
+      ]
+    }
+  ]
+}
